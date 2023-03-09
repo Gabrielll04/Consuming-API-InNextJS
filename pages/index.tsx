@@ -4,8 +4,10 @@ import { BiError } from 'react-icons/bi'
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import Card from '../components/Card'
 
+import { Anime, MultipleItensResponse } from '@/model/AnimeInterface'
+
 export default function App() {
-  const [media, setMedia] = useState<any>([])
+  const [media, setMedia] = useState<Anime[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [errorMsg, setErrorMsg] = useState<boolean>(false)
 
@@ -14,7 +16,7 @@ export default function App() {
       try {
         setLoading(true)
         setErrorMsg(false)
-        const response = await axios.post('https://graphql.anilist.co/api/v2/', {
+        const response = await axios.post<MultipleItensResponse>('https://graphql.anilist.co/api/v2/', {
           query: `
                 query {
                     Page(page: 1, perPage: 15) {
@@ -48,12 +50,11 @@ export default function App() {
       </div>
     )
   }
-
   return (
     <div className='flex flex-col w-full'>
       <header className='w-full h-56 bg-green-400'></header>
       <section className='flex justify-center flex-wrap p-14 gap-10 w-full h-full'>
-        {media && media.map((media: any) => (
+        {media && media.map((media: Anime) => (
           <Card media={media} key={media.id} />
         ))}
         {errorMsg && (

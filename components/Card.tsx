@@ -1,6 +1,8 @@
 import Link from 'next/link'
 
-export default function Card({ media }: any) {
+import { CardProps} from '@/model/AnimeInterface'
+
+export default function Card({ media }: CardProps) {
     return (
         <Link href={`anime/${media.title.romaji}`} key={media.id} className='flex flex-col font-bold text-white w-64 h-52 border border-zinc-700 rounded-2xl overflow-hidden transition delay-120 ease-in-out hover:scale-110 hover:shadow-2xl hover:-translate-y-5 cursor-pointer'>
             <div className='flex flex-col w-full h-full'>

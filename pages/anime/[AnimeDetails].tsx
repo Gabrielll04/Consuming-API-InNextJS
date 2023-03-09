@@ -3,28 +3,40 @@ import { useRouter } from "next/router"
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { BsThreeDotsVertical, BsBookmarkPlus } from 'react-icons/bs'
 import { Menu, Transition } from '@headlessui/react'
-import Image from 'next/image'
 import axios from 'axios'
 
+import { AnimeItemOnLocalStorage, SingleItemResponse, DetailedAnime } from '@/model/AnimeInterface'
+
 export default function AnimeDetails() {
-  const [media, setMedia] = useState<any>()
+  const [media, setMedia] = useState<DetailedAnime>()
   const [loading, setLoading] = useState<boolean>(false)
   const [error, setError] = useState<boolean>(false)
   const router = useRouter()
 
   function saveLocalStorage() {
-    const loadLocalStorage: any = localStorage.getItem('saved-anime-name')
-    const loadedLocalStorage = JSON.parse(loadLocalStorage)
-    const anime = { id: media.id, title: media.title.romaji, description: media.description, bannerImage: media.bannerImage }
-    const animeList = loadedLocalStorage !== null ? [...loadedLocalStorage, anime] : [anime]
-    localStorage.setItem('saved-anime-name', JSON.stringify(animeList))
+    const loadLocalStorage: string | null = localStorage.getItem('saved-anime')
+    if (media) {
+      if (loadLocalStorage === null ) {
+        const anime: AnimeItemOnLocalStorage = { id: media.id, title: media.title.romaji, description: media.description, bannerImage: media.bannerImage }
+        const animeList = [{...anime}]
+        localStorage.setItem('saved-anime', JSON.stringify(animeList))
+        return
+      }
+    
+      const loadedLocalStorage: AnimeItemOnLocalStorage[] = JSON.parse(loadLocalStorage)
+      const anime: AnimeItemOnLocalStorage = { id: media.id, title: media.title.romaji, description: media.description, bannerImage: media.bannerImage }
+      const animeList: AnimeItemOnLocalStorage[] = [...loadedLocalStorage, {...anime}]
+      localStorage.setItem('saved-anime', JSON.stringify(animeList))
+      return
+    }
+    return
   }
 
   useEffect(() => {
     async function FetchData() {
       try {
         setLoading(true)
-        const response = await axios.post('https://graphql.anilist.co/api/v2/', {
+        const response = await axios.post<SingleItemResponse>('https://graphql.anilist.co/api/v2/', {
           query: `
             query($title: String) {
               Media(type: ANIME, search: $title) {
@@ -44,9 +56,6 @@ export default function AnimeDetails() {
                   }
                 }
                 bannerImage
-                startDate {
-                  year
-                }
               }
             }
             `,
@@ -65,7 +74,7 @@ export default function AnimeDetails() {
     FetchData()
   }, [router.query.AnimeDetails])
 
-  function classNames(...classes: any[]) {
+  function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ')
   }
 
@@ -146,7 +155,7 @@ export default function AnimeDetails() {
                 <MyDropdown />
               </article>
               <article className='flex'>
-                <Image className='w-96' src={media.bannerImage} alt='anime banner'></Image>
+                <img className='w-96' src={media.bannerImage}></img>
               </article>
               <article className='flex flex-col w-[43.75rem] p-7 border border-zinc-700 rounded-2xl items-center overflow-hidden flex-wrap'>
                 <span className='text-2xl self-center'>Description</span>
@@ -158,8 +167,8 @@ export default function AnimeDetails() {
                 <span>Episodes: {media.episodes}</span>
                 <div className='flex flex-col items-center space-y-1'>
                   <span className='font-bold text-xl'>Studios</span>
-                  {media.studios.nodes.map((studioName: any, index: number) => (
-                    <span key={index}>{studioName.name}</span>
+                  {media.studios.nodes.map((studioNode, index: number) => (
+                    <span key={index}>{studioNode.name}</span>
                   ))}
                 </div>
               </article>

@@ -2,6 +2,7 @@ import { BsThreeDotsVertical } from 'react-icons/bs'
 import { Menu, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import { unsaveLocalStorage } from '@/pages/user/savedAnimes'
+import Link from 'next/link'
 
 
 export default function AnimeCard({ media }: any) {
@@ -52,7 +53,9 @@ export default function AnimeCard({ media }: any) {
 
   return (
     <div style={{ backgroundImage: `url(${media.bannerImage})`, backgroundSize: 'cover', backgroundPosition: 'center', boxShadow: 'inset 0 -70px 90px -6px black' }} className='flex border border-white w-[36rem] h-24 rounded-xl px-2 pb-1 cursor-pointer transition ease-in-out hover:-translate-y-1'>
-      <span className="font-bold self-end">{media.title}</span>
+      <Link href={`/anime/${media.title}`} className='w-full h-full'>
+        <span className="font-bold self-end">{media.title}</span>
+      </Link>
       <button className='flex justify-center items-center rounded-lg self-end ml-auto w-6 h-6 transition hover:bg-zinc-800'><Dropdown /></button>
     </div>
   )
