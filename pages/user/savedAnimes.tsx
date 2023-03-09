@@ -29,8 +29,8 @@ export default function SavedAnimes() {
           <AnimeCard media={anime} />
         </div>
       ))}
-      { !animeList || !animeList.length &&   (
-        <span className='text-3xl font-bold text-zinc-600'>There's nothing yet</span>
+      { !animeList || !animeList.length && (
+        <span className='text-3xl font-bold text-zinc-600'>{`There's`} nothing yet</span>
       )}
     </div>
   ) 
