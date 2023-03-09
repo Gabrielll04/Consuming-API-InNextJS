@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import { AiOutlineLoading3Quarters } from 'react-icons/ai'
 import { BsThreeDotsVertical, BsBookmarkPlus } from 'react-icons/bs'
 import { Menu, Transition } from '@headlessui/react'
+import Image from 'next/image'
 import axios from 'axios'
 
 export default function AnimeDetails() {
@@ -145,7 +146,7 @@ export default function AnimeDetails() {
                 <MyDropdown />
               </article>
               <article className='flex'>
-                <img className='w-96' src={media.bannerImage}></img>
+                <Image className='w-96' src={media.bannerImage} alt='anime banner'></Image>
               </article>
               <article className='flex flex-col w-[43.75rem] p-7 border border-zinc-700 rounded-2xl items-center overflow-hidden flex-wrap'>
                 <span className='text-2xl self-center'>Description</span>

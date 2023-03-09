@@ -24,11 +24,14 @@ export default function SavedAnimes() {
 
   return (
     <div className='flex flex-col items-center w-screen h-screen p-14 space-y-4'>
-      {animeList?.map((anime: any) => (
+      {animeList && animeList?.map((anime: any) => (
         <div key={anime.id}>
           <AnimeCard media={anime} />
         </div>
       ))}
+      { !animeList || !animeList.length &&   (
+        <span className='text-3xl font-bold text-zinc-600'>There's nothing yet</span>
+      )}
     </div>
-  )
+  ) 
 }
