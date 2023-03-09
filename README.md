@@ -1,4 +1,4 @@
-## Hi, welcome to my project! :pizza
+## Hi, welcome to my project! :pizza:
 
 ## Getting Started
 
