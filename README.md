@@ -28,3 +28,8 @@ To learn more about Next.js, take a look at the following resources:
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
 ## Here are some screenshots of the application:
+not yet...
+
+## Website link
+
+You can visit the website through this link: https://nice-phi.vercel.app/
